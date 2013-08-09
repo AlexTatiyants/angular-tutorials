@@ -1,0 +1,82 @@
+<html data-ng-app="myApp"> 
+	<head> 
+		<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"> </script>
+  	</head>
+  	 <body> 
+		<input type="textbox" incrementable/>
+  	 </body>
+
+	<script>
+		angular.module('myApp', []).directive('incrementable', function() {
+		  return {
+
+		    restrict: 'A',
+		    require: '?ngModel',
+
+		    link: function($scope, $element, attrs, $ngModel) {
+		    	console.log($element);
+
+		      // $element.on('paste', function(event) {
+
+		      //   // first, check the clipboard to see if an image being pasted
+		      //   var pastedImage;
+
+		      //   _.each(event.originalEvent.clipboardData.items, function(item) {
+		      //     if (item.type === 'image/png') {
+		      //       pastedImage = item;
+		      //     }
+		      //   });
+
+		      //   if (pastedImage) {
+		      //     // if there is an image being pasted, we need to prevent the browswer from
+		      //     // pasting any html which may be contained in the clipboard
+		      //     event.preventDefault();
+		      //     $scope.$emit('imageInserted', pastedImage.getAsFile());
+		      //   }
+		      // });
+		    }
+		  };
+		});
+
+
+		// angular.module('myApp', []).directive('incrementable', function() {
+		//   return {
+		//     restrict: 'A',
+		//     require: '?ngModel',
+		//     link: function($scope, $element, attrs, $ngModel) {
+
+		//     	$element.on('keyup', function(event) {
+		//     		console.log(event);
+		//     	})
+
+
+			// 	if (!$ngModel) return;
+
+			// 	$ngModel.$render = function() {
+			// 		$element.html($ngModel.$viewValue || '');
+			// 	};
+
+			// 	$element.bind('keyup', function() {
+			// 		console.log("keyup pressed");
+			// 		$scope.$apply(read);
+			// 	});
+
+			// 	var isNumber = function(n) {
+			// 		return !isNaN(parseFloat(n)) && isFinite(n);
+			// 	};
+
+			// 	var read = function() {
+			// 		var value = element.context.innerText;
+			// 		if (isNumber(value)) {
+			// 			value += 1;
+			// 		}
+
+			// 		ngModel.$setViewValue(value);
+			// 	};
+			// }
+
+			// // read();
+		  // };
+		// });
+	</script> 
+</html>

@@ -1,0 +1,140 @@
+<html data-ng-app="todoApp">
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<style type="text/css">
+		body {
+			font-family: sans-serif;
+		}
+		.todoList {
+			list-style: none;
+		}
+		.todoList input[type="checkbox"] {
+			float: left;
+			height: 30px;
+			width: 30px;
+			margin: 20px 10px 20px 10px;
+		}
+
+		.button {
+			float: left;
+			height: 40px;
+			width: 40px;
+			border-radius: 40%;
+			border: 0px;
+			background-color: red;
+			color: #fff;
+			font-size: 30px;
+			font-style: 600;
+		}
+
+		.todoItem {
+			overflow: hidden;
+			width: 100%;
+			height: 60px;
+		}
+
+		.todoItem .button {
+			margin-top: 10px;
+		}
+
+		.todoText {
+			height: 30px;
+			font-size: 20px;
+			padding: 10px;
+			width: 80%;
+			border-bottom: 1px solid #ccc;
+			background-color: #f1F1F1;
+			margin: 5px;
+			float: left;
+		}
+
+		.completed {
+			text-decoration: line-through;
+			color: #bbb;
+		}
+
+		.todoContainer {
+			margin: auto;
+			width: 90%;
+		}
+
+		</style>
+  	</head>
+	<body>
+		<div class="todoContainer" data-ng-controller="TodoController">
+			<h1>My Todos</h1>
+			<ul class="todoList">
+				<li class="todoList">
+					<div class="todoText" contentEditable data-ng-bind="newTodo"></div>
+					<button data-ng-click="addTodo(newTodo)">+</button>
+				</li>
+				<li class="todoItem" data-ng-repeat="todo in todos">
+					<div class="todoText" data-ng-class="{'completed': todo.completed}" contentEditable data-ng-bind="todo.description"></div>
+					<input type="checkbox" data-ng-model="todo.completed"></input>
+					<button class="button" data-ng-click=removeTodo(todo)>-</button>
+				</li>
+			</ul>
+	
+		</div>
+	</body>
+
+	<script>
+		var TodoController = function($scope) {
+
+			$scope.todos = [
+				{
+					description: "learn angular",
+					completed: false,
+					dateCompleted: null
+				}
+			];
+
+			$scope.addTodo = function(description) {
+				var todo = {
+					description: description,
+					completed: false,
+					dateCompleted: null
+				};
+
+				$scope.todos.push(todo);
+			};
+
+			$scope.removeTodo = function(todo) {
+				$scope.todos.splice($scope.todos.indexOf(todo), 1);
+			};
+		};
+
+		TodoController.$inject = ['$scope'];
+
+		angular.module('todoApp', []);	
+
+		angular.module('todoApp').directive('contentEditable', function() {
+		  return {
+		    restrict: 'A',
+		    require: '?ngModel',
+		    link: function(scope, element, attrs, ngModel) {
+		      if (!ngModel) return;
+
+		      ngModel.$render = function() {
+		        element.html(ngModel.$viewValue || '');
+		      };
+
+		      element.bind('blur keyup change', function() {
+		        scope.$apply(read);
+		      });
+
+		      var read = function() {
+		        ngModel.$setViewValue(element.context.innerText);
+		      };
+
+		      element.bind('blur paste', function() {
+		        scope.$emit('elementEdited', element[0].id);
+		      });
+
+		      read();
+		    }
+		  };
+		});
+
+	</script>
+</html>

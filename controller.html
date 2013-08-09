@@ -1,0 +1,24 @@
+<html data-ng-app>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+  	</head>
+	<body>
+		<div data-ng-controller="CalculatorController">
+			<input type="text" data-ng-model="first_value"/>			
+			<span> + </span>
+			<input type="text" data-ng-model="second_value"/>
+			<span> = </span>
+			<span data-ng-bind="add(first_value, second_value)"></span>			
+		</div>
+	</body>
+
+	<script>
+		var CalculatorController = function($scope) {
+			$scope.add = function(first_value, second_value) {
+				return parseInt(first_value) + parseInt(second_value);
+			};
+		};
+
+		CalculatorController.$inject = ['$scope'];	
+	</script>
+</html>

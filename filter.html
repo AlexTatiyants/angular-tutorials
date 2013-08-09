@@ -1,0 +1,23 @@
+<html  data-ng-app="dateApp">
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>	
+		<script src="https://rawgithub.com/timrwood/moment/2.1.0/min/moment.min.js"></script>	
+	</head>
+	<body>
+		
+		<div><input type="text" data-ng-model="myDate"/>
+		 is <span data-ng-bind="myDate | fromNow"></span> from now</div>		
+	</body>	
+	<script>
+		angular.module('dateApp', []).filter('fromNow', function() {
+		return function(date) {
+			if (date) {
+				return moment(date).fromNow();
+			} else {
+				return "never";
+			}
+		};
+	}); 
+	</script>
+</html>
+
