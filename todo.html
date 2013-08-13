@@ -5,18 +5,18 @@
 		body {
 			font-family: sans-serif;
 		}
+
 		.todoList {
 			list-style: none;
 		}
+
 		.todoList input[type="checkbox"] {
-			float: left;
 			height: 30px;
 			width: 30px;
 			margin: 20px 10px 20px 10px;
 		}
 
 		.button {
-			float: left;
 			height: 40px;
 			width: 40px;
 			border-radius: 40%;
@@ -30,7 +30,6 @@
 		.todoItem {
 			overflow: hidden;
 			width: 100%;
-			height: 60px;
 		}
 
 		.todoItem .button {
@@ -53,6 +52,15 @@
 			color: #bbb;
 		}
 
+		.completedDate {
+			float: left;
+			clear: both;
+			padding: 3px 0px 10px 5px;
+			font-style: italic;
+			font-size: 13px;
+			color: #b1b1b1;
+		}
+
 		.todoContainer {
 			margin: auto;
 			width: 90%;
@@ -65,16 +73,18 @@
 			<h1>My Todos</h1>
 			<ul class="todoList">
 				<li class="todoList">
-					<div class="todoText" contentEditable data-ng-bind="newTodo"></div>
-					<button data-ng-click="addTodo(newTodo)">+</button>
+					<div class="todoText" contentEditable data-ng-bind="todoDescription"></div>
+					<button data-ng-click="addTodo(todoDescription)">+</button>
 				</li>
 				<li class="todoItem" data-ng-repeat="todo in todos">
-					<div class="todoText" data-ng-class="{'completed': todo.completed}" contentEditable data-ng-bind="todo.description"></div>
+					<div class="todoText" data-ng-class="{'completed': todo.completed}" contentEditable 
+					data-ng-bind="todo.description"></div>
+					<span class="completedDate" data-ng-bind="todo.dateCompleted"></span>
+
 					<input type="checkbox" data-ng-model="todo.completed"></input>
 					<button class="button" data-ng-click=removeTodo(todo)>-</button>
 				</li>
 			</ul>
-	
 		</div>
 	</body>
 
@@ -84,14 +94,20 @@
 			$scope.todos = [
 				{
 					description: "learn angular",
+					completed: true,
+					dateCompleted: "8/1/2013"
+				},
+				{
+					description: "write tutorial",
 					completed: false,
 					dateCompleted: null
 				}
 			];
 
-			$scope.addTodo = function(description) {
+			$scope.addTodo = function(desc) {
+				console.log(desc);
 				var todo = {
-					description: description,
+					description: desc,
 					completed: false,
 					dateCompleted: null
 				};
@@ -108,33 +124,33 @@
 
 		angular.module('todoApp', []);	
 
-		angular.module('todoApp').directive('contentEditable', function() {
-		  return {
-		    restrict: 'A',
-		    require: '?ngModel',
-		    link: function(scope, element, attrs, ngModel) {
-		      if (!ngModel) return;
+		// angular.module('todoApp').directive('contentEditable', function() {
+		//   return {
+		//     restrict: 'A',
+		//     require: '?ngModel',
+		//     link: function(scope, element, attrs, ngModel) {
+		//       if (!ngModel) return;
 
-		      ngModel.$render = function() {
-		        element.html(ngModel.$viewValue || '');
-		      };
+		//       ngModel.$render = function() {
+		//         element.html(ngModel.$viewValue || '');
+		//       };
 
-		      element.bind('blur keyup change', function() {
-		        scope.$apply(read);
-		      });
+		//       element.bind('blur keyup change', function() {
+		//         scope.$apply(read);
+		//       });
 
-		      var read = function() {
-		        ngModel.$setViewValue(element.context.innerText);
-		      };
+		//       var read = function() {
+		//         ngModel.$setViewValue(element.context.innerText);
+		//       };
 
-		      element.bind('blur paste', function() {
-		        scope.$emit('elementEdited', element[0].id);
-		      });
+		//       element.bind('blur paste', function() {
+		//         scope.$emit('elementEdited', element[0].id);
+		//       });
 
-		      read();
-		    }
-		  };
-		});
+		//       read();
+		//     }
+		//   };
+		// });
 
 	</script>
 </html>
